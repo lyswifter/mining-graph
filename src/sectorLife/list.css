@@ -1,0 +1,38 @@
+.col-header {
+  background-color: #32363B;
+  color: white;
+  height: 45px;
+  line-height: 45px;
+  border:1px solid #212529
+}
+
+.demo-infinite-container {
+  border: 1px solid #212529;
+  overflow: auto;
+  width: 160px;
+  height: 900px;
+}
+
+.demo-loading-container {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+  text-align: center;
+}
+
+
+[data-theme="dark"] .demo-infinite-container {
+    border: 1px solid #303030;
+}
+
+.ant-list-split .ant-list-item {
+  border: 1px solid #32363B;
+}
+
+.row-item {
+  height: 46px;
+  background-color: #2B2F33;
+  color: white;
+}
+
+.demo-infinite-container::-webkit-scrollbar { width: 0 !important }
