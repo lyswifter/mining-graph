@@ -1,9 +1,24 @@
+.titleView {
+  width: 100%;
+  background-color: #212529;
+  color: white;
+  text-align: center;
+  font-size: medium;
+}
+
 .col-header {
   background-color: #32363B;
   color: white;
   height: 45px;
-  line-height: 45px;
   border:1px solid #212529
+}
+
+.statView {
+  font-size: 14px;
+}
+
+.totalView {
+  font-size: 12px;
 }
 
 .demo-infinite-container {
@@ -31,6 +46,10 @@
 
 .ant-col {
   background-color: #2B2F33;
+}
+
+.ant-empty-normal .ant-empty-image {
+  height: 25px;
 }
 
 .row-item {

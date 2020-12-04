@@ -1,9 +1,9 @@
 import React from 'react';
+import { Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import '../index.css';
-import { Row, Col } from 'antd';
-import ListView from './list';
 import './list.css';
+import ListView from './list';
 
 const states = [
   "Empty", 
@@ -56,26 +56,24 @@ const states = [
   "UndefinedSectorState",
 ];
 
-function FormCol() {
+function FormSectorView() {
   let cols = states.map((item, index) => {
     return (
       <Col key={index}>
-          <div className="col-header">
-            {item}
-          </div>
-          <ListView/>
+          <ListView stat={item}/>
       </Col>
     ) 
   });
 
   return <div>
+    <div className="titleView">扇区生命周期</div>
     <Row wrap={false}>{cols}</Row>
   </div>
 }
 
 class SectorView extends React.Component {
   render() {
-    return <FormCol/>;
+    return <FormSectorView/>;
   }
 }
 

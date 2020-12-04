@@ -2,15 +2,12 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import '../index.css';
 import './list.css';
-
+import DomainProduction from '../domain';
 import { List, message, Spin } from 'antd';
-
 import reqwest from 'reqwest';
-
 import InfiniteScroll from 'react-infinite-scroller';
 
-const count = 3;
-const fakeDataUrl = `http://localhost:9090/query/states?name=PreCommit1&name=SealPreCommit1Failed`;
+const loadStateUrl = `/query/states?`;
 
 class ListView extends React.Component {
     constructor(props) {
@@ -18,22 +15,31 @@ class ListView extends React.Component {
     }
 
     state = {
+      total: 0,
       data: [],
       loading: false,
       hasMore: true,
+      offset: 0,
+      size: 30,
     };
   
     componentDidMount() {
+      console.log(this.props.stat)
+
       this.fetchData(res => {
         this.setState({
           data: res.data,
+          total: res.total,
         });
-      });
+      }, this.state.offset, this.state.size);
     }
   
-    fetchData = callback => {
+    fetchData = (callback, offset, size) => {
+      let targetUrl =  DomainProduction + loadStateUrl + "name=" + this.props.stat + "&offset=" + offset + "&size=" + size
+      console.log(targetUrl)
+
       reqwest({
-        url: fakeDataUrl,
+        url: targetUrl,
         type: 'json',
         method: 'get',
         contentType: 'application/json',
@@ -48,7 +54,8 @@ class ListView extends React.Component {
       this.setState({
         loading: true,
       });
-      if (data.length > 50) {
+
+      if (data.length >= this.state.total) {
         message.warning('Infinite List loaded all');
         this.setState({
           hasMore: false,
@@ -56,18 +63,28 @@ class ListView extends React.Component {
         });
         return;
       }
+
+      this.state.offset++
+
       this.fetchData(res => {
         data = data.concat(res.data);
         this.setState({
           data,
+          total: res.total,
           loading: false,
         });
-      });
+      }, this.state.offset, this.state.size);
     };
   
     render() {
       return (
-        <div className="demo-infinite-container">
+        <div>
+          <div className="col-header">
+            <div className="statView">{this.props.stat}</div>
+            <div className="totalView">{this.state.total}</div>
+          </div>
+
+          <div className="demo-infinite-container">
             <InfiniteScroll
               initialLoad={false}
               pageStart={0}
@@ -90,7 +107,8 @@ class ListView extends React.Component {
                 )}
               </List>
             </InfiniteScroll>
-          </div>
+        </div>
+      </div>
       );
     }
   }

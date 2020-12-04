@@ -9,10 +9,6 @@ function App() {
     <div className="App">
       <>
       <Layout>
-        {/* <Header>
-          <h3 style={{color: "white"}}>扇区生命周期</h3>
-        </Header> */}
-
         <Content>
           <SectorView/>
         </Content>
