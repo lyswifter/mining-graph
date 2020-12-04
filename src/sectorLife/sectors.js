@@ -21,8 +21,8 @@ const states = [
   "FinalizeSector",
   "Proving",
   "FailedUnrecoverable",
-  "SealPre1Failed",
-  "SealPre2Failed",
+  "SealPreCommit1Failed",
+  "SealPreCommit2Failed",
   "PreCommitFailed",
   "ComputeProofFailed",
   "CommitFailed",
@@ -47,8 +47,8 @@ const states = [
   "ProxyCommitted",
   "ProxyFetchingSector",
   "OrphanFailed",
-  "OspRequest",
-  "OspRequested",
+  "OspCommittingRequest",
+  "OspCommittingRequested",
   "OspCommitting",
   "OfflineDealsReady",
   "OfflineDealsReadyFailed",
@@ -66,7 +66,6 @@ function FormSectorView() {
   });
 
   return <div>
-    <div className="titleView">扇区生命周期</div>
     <Row wrap={false}>{cols}</Row>
   </div>
 }

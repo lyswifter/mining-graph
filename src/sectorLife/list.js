@@ -32,6 +32,19 @@ class ListView extends React.Component {
           total: res.total,
         });
       }, this.state.offset, this.state.size);
+
+      this.ticker = setInterval(() => {
+        this.fetchData(res => {
+          this.setState({
+            data: res.data,
+            total: res.total,
+          });
+        }, 0, this.state.size);
+      }, 5000);
+    }
+
+    componentWillUnmount() {
+      clearInterval(this.ticker);
     }
   
     fetchData = (callback, offset, size) => {
@@ -56,7 +69,7 @@ class ListView extends React.Component {
       });
 
       if (data.length >= this.state.total) {
-        message.warning('Infinite List loaded all');
+        message.warning('加载完成');
         this.setState({
           hasMore: false,
           loading: false,
@@ -64,7 +77,7 @@ class ListView extends React.Component {
         return;
       }
 
-      this.state.offset++
+      this.state.offset+=this.state.size
 
       this.fetchData(res => {
         data = data.concat(res.data);
