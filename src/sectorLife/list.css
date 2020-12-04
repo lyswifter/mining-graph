@@ -29,6 +29,10 @@
   border: 1px solid #32363B;
 }
 
+.ant-col {
+  background-color: #2B2F33;
+}
+
 .row-item {
   height: 46px;
   background-color: #2B2F33;

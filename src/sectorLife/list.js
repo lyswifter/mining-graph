@@ -25,11 +25,8 @@ class ListView extends React.Component {
   
     componentDidMount() {
       this.fetchData(res => {
-        let { data } = this.state;
-        data = data.concat(res.data);
-        data = data.concat(res.data);
         this.setState({
-          data: data,
+          data: res.data,
         });
       });
     }
