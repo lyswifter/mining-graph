@@ -7,10 +7,7 @@ import { List, message, Spin } from 'antd';
 import reqwest from 'reqwest';
 import InfiniteScroll from 'react-infinite-scroller';
 
-import timing from '../util'
-
 const loadStateUrl = `/query/states?`;
-
 const opacity = 0.8
 
 class ListView extends React.Component {
@@ -24,46 +21,33 @@ class ListView extends React.Component {
       loading: false,
       hasMore: true,
       offset: 0,
-      size: 30,
+      size: 5000,
     };
   
     componentDidMount() {
-      console.log(this.props.stat)
-
       this.fetchData(res => {
 
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
 
-          if (element.Sec < 60) {
-            element.style = {
-              background: '#60B158',
-              opacity: opacity,
-            }
-          } else if (element.Sec < 60*5){
-            element.style = {
-              background: '#FEBC2C',
-              opacity: opacity,
+          if (element.After == "PreCommit1") {
+            if (element.Sec < 60*60*2) {
+              element.style = {
+                background: '#60B158',
+                opacity: opacity,
+              }
+            } else if (element.Sec < 60*60*2.5){
+              element.style = {
+                background: '#FEBC2C',
+                opacity: opacity,
+              }
+            } else {
+              element.style = {
+                background: '#A4423F',
+                opacity: opacity,
+              }
             }
           } else {
-            element.style = {
-              background: '#A4423F',
-              opacity: opacity,
-            }
-          }
-        }
-
-        this.setState({
-          data: res.data,
-          total: res.total,
-        });
-      }, this.state.offset, this.state.size);
-
-      this.ticker = setInterval(() => {
-        this.fetchData(res => {
-          for (let i = 0; i < res.data.length; i++) {
-            const element = res.data[i];
-  
             if (element.Sec < 60) {
               element.style = {
                 background: '#60B158',
@@ -81,12 +65,63 @@ class ListView extends React.Component {
               }
             }
           }
+        }
+
+        this.setState({
+          data: res.data,
+          total: res.total,
+        });
+      }, this.state.offset, this.state.size);
+
+      this.ticker = setInterval(() => {
+        this.fetchData(res => {
+
+          for (let i = 0; i < res.data.length; i++) {
+            const element = res.data[i];
+  
+            if (element.After == "PreCommit1") {
+              if (element.Sec < 60*60*3) {
+                element.style = {
+                  background: '#60B158',
+                  opacity: opacity,
+                }
+              } else if (element.Sec < 60*60*4){
+                element.style = {
+                  background: '#FEBC2C',
+                  opacity: opacity,
+                }
+              } else {
+                element.style = {
+                  background: '#A4423F',
+                  opacity: opacity,
+                }
+              }
+            } else {
+              if (element.Sec < 60) {
+                element.style = {
+                  background: '#60B158',
+                  opacity: opacity,
+                }
+              } else if (element.Sec < 60*5){
+                element.style = {
+                  background: '#FEBC2C',
+                  opacity: opacity,
+                }
+              } else {
+                element.style = {
+                  background: '#A4423F',
+                  opacity: opacity,
+                }
+              }
+            }
+          }
 
           this.setState({
             data: res.data,
             total: res.total,
           });
-        }, 0, 5000);
+
+        }, 0, this.state.size);
       }, 5000);
     }
 
@@ -124,26 +159,47 @@ class ListView extends React.Component {
         return;
       }
 
-      this.state.offset+=this.state.size
+      this.setState({
+        offset: this.state.offset+this.state.size
+      })
 
       this.fetchData(res => {
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
 
-          if (element.Sec < 60) {
-            element.style = {
-              background: '#60B158',
-              opacity: opacity,
-            }
-          } else if (element.Sec < 60*5){
-            element.style = {
-              background: '#FEBC2C',
-              opacity: opacity,
+          if (element.After == "PreCommit1") {
+            if (element.Sec < 60*60*3) {
+              element.style = {
+                background: '#60B158',
+                opacity: opacity,
+              }
+            } else if (element.Sec < 60*60*4){
+              element.style = {
+                background: '#FEBC2C',
+                opacity: opacity,
+              }
+            } else {
+              element.style = {
+                background: '#A4423F',
+                opacity: opacity,
+              }
             }
           } else {
-            element.style = {
-              background: '#A4423F',
-              opacity: opacity,
+            if (element.Sec < 60) {
+              element.style = {
+                background: '#60B158',
+                opacity: opacity,
+              }
+            } else if (element.Sec < 60*5){
+              element.style = {
+                background: '#FEBC2C',
+                opacity: opacity,
+              }
+            } else {
+              element.style = {
+                background: '#A4423F',
+                opacity: opacity,
+              }
             }
           }
         }
