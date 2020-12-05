@@ -35,13 +35,16 @@
   text-align: center;
 }
 
-
 [data-theme="dark"] .demo-infinite-container {
     border: 1px solid #303030;
 }
 
 .ant-list-split .ant-list-item {
   border: 1px solid #32363B;
+  display: block;
+  padding: 0;
+  padding-left: 10px;
+  text-align: left;
 }
 
 .ant-col {
@@ -56,7 +59,17 @@
   height: 46px;
   background-color: #2B2F33;
   color: white;
-  padding-left: 10px;
+}
+
+.idViwe {
+  font-size: 13px;
+  font-weight: bolder;
+}
+
+.delayView {
+  font-size: 12px;
+  margin-top: 4px;
+  color: white
 }
 
 .demo-infinite-container::-webkit-scrollbar { width: 0 !important }

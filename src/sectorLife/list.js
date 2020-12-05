@@ -7,7 +7,11 @@ import { List, message, Spin } from 'antd';
 import reqwest from 'reqwest';
 import InfiniteScroll from 'react-infinite-scroller';
 
+import timing from '../util'
+
 const loadStateUrl = `/query/states?`;
+
+const opacity = 0.8
 
 class ListView extends React.Component {
     constructor(props) {
@@ -27,6 +31,28 @@ class ListView extends React.Component {
       console.log(this.props.stat)
 
       this.fetchData(res => {
+
+        for (let i = 0; i < res.data.length; i++) {
+          const element = res.data[i];
+
+          if (element.Sec < 60) {
+            element.style = {
+              background: '#60B158',
+              opacity: opacity,
+            }
+          } else if (element.Sec < 60*5){
+            element.style = {
+              background: '#FEBC2C',
+              opacity: opacity,
+            }
+          } else {
+            element.style = {
+              background: '#A4423F',
+              opacity: opacity,
+            }
+          }
+        }
+
         this.setState({
           data: res.data,
           total: res.total,
@@ -35,11 +61,32 @@ class ListView extends React.Component {
 
       this.ticker = setInterval(() => {
         this.fetchData(res => {
+          for (let i = 0; i < res.data.length; i++) {
+            const element = res.data[i];
+  
+            if (element.Sec < 60) {
+              element.style = {
+                background: '#60B158',
+                opacity: opacity,
+              }
+            } else if (element.Sec < 60*5){
+              element.style = {
+                background: '#FEBC2C',
+                opacity: opacity,
+              }
+            } else {
+              element.style = {
+                background: '#A4423F',
+                opacity: opacity,
+              }
+            }
+          }
+
           this.setState({
             data: res.data,
             total: res.total,
           });
-        }, 0, this.state.size);
+        }, 0, 5000);
       }, 5000);
     }
 
@@ -80,6 +127,27 @@ class ListView extends React.Component {
       this.state.offset+=this.state.size
 
       this.fetchData(res => {
+        for (let i = 0; i < res.data.length; i++) {
+          const element = res.data[i];
+
+          if (element.Sec < 60) {
+            element.style = {
+              background: '#60B158',
+              opacity: opacity,
+            }
+          } else if (element.Sec < 60*5){
+            element.style = {
+              background: '#FEBC2C',
+              opacity: opacity,
+            }
+          } else {
+            element.style = {
+              background: '#A4423F',
+              opacity: opacity,
+            }
+          }
+        }
+
         data = data.concat(res.data);
         this.setState({
           data,
@@ -108,8 +176,9 @@ class ListView extends React.Component {
               <List
                 dataSource={this.state.data}
                 renderItem={item => (
-                  <List.Item className="row-item">
-                    <div>{item.SectorNumber}</div>
+                  <List.Item style={item.style} className="row-item">
+                    <div className="idViwe">{item.SectorNumber}</div>
+                    <div className="delayView">{item.Interval}</div>
                   </List.Item>
                 )}
               >
