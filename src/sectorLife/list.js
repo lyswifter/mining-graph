@@ -25,45 +25,21 @@ class ListView extends React.Component {
     };
   
     componentDidMount() {
-      this.fetchData(res => {
+      this.fetchData(err => {
+        console.log(err)
+        this.setState({
+          data: [],
+          total: 0,
+          loading: false,
+        });
+      },
+      res => {
 
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
-
-          if (element.After == "PreCommit1") {
-            if (element.Sec < 60*60*2) {
-              element.style = {
-                background: '#60B158',
-                opacity: opacity,
-              }
-            } else if (element.Sec < 60*60*2.5){
-              element.style = {
-                background: '#FEBC2C',
-                opacity: opacity,
-              }
-            } else {
-              element.style = {
-                background: '#A4423F',
-                opacity: opacity,
-              }
-            }
-          } else {
-            if (element.Sec < 60) {
-              element.style = {
-                background: '#60B158',
-                opacity: opacity,
-              }
-            } else if (element.Sec < 60*5){
-              element.style = {
-                background: '#FEBC2C',
-                opacity: opacity,
-              }
-            } else {
-              element.style = {
-                background: '#A4423F',
-                opacity: opacity,
-              }
-            }
+          element.style = {
+            background: element.Color,
+            opacity: opacity,
           }
         }
 
@@ -74,45 +50,21 @@ class ListView extends React.Component {
       }, this.state.offset, this.state.size);
 
       this.ticker = setInterval(() => {
-        this.fetchData(res => {
+        this.fetchData(err => {
+          console.log(err)
+          this.setState({
+            data: [],
+            total: 0,
+            loading: false,
+          });
+        },
+        res => {
 
           for (let i = 0; i < res.data.length; i++) {
             const element = res.data[i];
-  
-            if (element.After == "PreCommit1") {
-              if (element.Sec < 60*60*3) {
-                element.style = {
-                  background: '#60B158',
-                  opacity: opacity,
-                }
-              } else if (element.Sec < 60*60*4){
-                element.style = {
-                  background: '#FEBC2C',
-                  opacity: opacity,
-                }
-              } else {
-                element.style = {
-                  background: '#A4423F',
-                  opacity: opacity,
-                }
-              }
-            } else {
-              if (element.Sec < 60) {
-                element.style = {
-                  background: '#60B158',
-                  opacity: opacity,
-                }
-              } else if (element.Sec < 60*5){
-                element.style = {
-                  background: '#FEBC2C',
-                  opacity: opacity,
-                }
-              } else {
-                element.style = {
-                  background: '#A4423F',
-                  opacity: opacity,
-                }
-              }
+            element.style = {
+              background: element.Color,
+              opacity: opacity,
             }
           }
 
@@ -129,7 +81,7 @@ class ListView extends React.Component {
       clearInterval(this.ticker);
     }
   
-    fetchData = (callback, offset, size) => {
+    fetchData = (errcallback, callback, offset, size) => {
       let targetUrl =  DomainProduction + loadStateUrl + "name=" + this.props.stat + "&offset=" + offset + "&size=" + size
       console.log(targetUrl)
 
@@ -138,6 +90,9 @@ class ListView extends React.Component {
         type: 'json',
         method: 'get',
         contentType: 'application/json',
+        error: function (err) {
+          errcallback(err)
+         },
         success: res => {
           callback(res);
         },
@@ -163,44 +118,21 @@ class ListView extends React.Component {
         offset: this.state.offset+this.state.size
       })
 
-      this.fetchData(res => {
+      this.fetchData( err => {
+        console.log(err)
+        this.setState({
+          data: [],
+          total: 0,
+          loading: false,
+        });
+      },
+      res => {
+
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
-
-          if (element.After == "PreCommit1") {
-            if (element.Sec < 60*60*3) {
-              element.style = {
-                background: '#60B158',
-                opacity: opacity,
-              }
-            } else if (element.Sec < 60*60*4){
-              element.style = {
-                background: '#FEBC2C',
-                opacity: opacity,
-              }
-            } else {
-              element.style = {
-                background: '#A4423F',
-                opacity: opacity,
-              }
-            }
-          } else {
-            if (element.Sec < 60) {
-              element.style = {
-                background: '#60B158',
-                opacity: opacity,
-              }
-            } else if (element.Sec < 60*5){
-              element.style = {
-                background: '#FEBC2C',
-                opacity: opacity,
-              }
-            } else {
-              element.style = {
-                background: '#A4423F',
-                opacity: opacity,
-              }
-            }
+          element.style = {
+            background: element.Color,
+            opacity: opacity,
           }
         }
 
@@ -210,7 +142,9 @@ class ListView extends React.Component {
           total: res.total,
           loading: false,
         });
-      }, this.state.offset, this.state.size);
+      }, 
+      this.state.offset, 
+      this.state.size);
     };
   
     render() {
