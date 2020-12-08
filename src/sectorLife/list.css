@@ -39,6 +39,10 @@
     border: 1px solid #303030;
 }
 
+.ant-row-no-wrap {
+  background-color: #32363B;
+}
+
 .ant-list-split .ant-list-item {
   border: 1px solid #32363B;
   display: block;

@@ -57,6 +57,7 @@ const states = [
 ];
 
 function FormSectorView() {
+  //load states item info
   let cols = states.map((item, index) => {
     return (
       <Col key={index}>

@@ -34,7 +34,6 @@ class ListView extends React.Component {
         });
       },
       res => {
-
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
           element.style = {
@@ -51,7 +50,6 @@ class ListView extends React.Component {
 
       this.ticker = setInterval(() => {
         this.fetchData(err => {
-          console.log(err)
           this.setState({
             data: [],
             total: 0,
@@ -59,7 +57,6 @@ class ListView extends React.Component {
           });
         },
         res => {
-
           for (let i = 0; i < res.data.length; i++) {
             const element = res.data[i];
             element.style = {
@@ -72,7 +69,6 @@ class ListView extends React.Component {
             data: res.data,
             total: res.total,
           });
-
         }, 0, this.state.size);
       }, 5000);
     }
@@ -83,8 +79,6 @@ class ListView extends React.Component {
   
     fetchData = (errcallback, callback, offset, size) => {
       let targetUrl =  DomainProduction + loadStateUrl + "name=" + this.props.stat + "&offset=" + offset + "&size=" + size
-      console.log(targetUrl)
-
       reqwest({
         url: targetUrl,
         type: 'json',
@@ -119,7 +113,6 @@ class ListView extends React.Component {
       })
 
       this.fetchData( err => {
-        console.log(err)
         this.setState({
           data: [],
           total: 0,
@@ -127,7 +120,6 @@ class ListView extends React.Component {
         });
       },
       res => {
-
         for (let i = 0; i < res.data.length; i++) {
           const element = res.data[i];
           element.style = {
@@ -137,51 +129,54 @@ class ListView extends React.Component {
         }
 
         data = data.concat(res.data);
+
         this.setState({
           data,
           total: res.total,
           loading: false,
         });
-      }, 
-      this.state.offset, 
-      this.state.size);
+      }, this.state.offset, this.state.size);
     };
   
     render() {
-      return (
-        <div>
-          <div className="col-header">
-            <div className="statView">{this.props.stat}</div>
-            <div className="totalView">{this.state.total}</div>
-          </div>
-
-          <div className="demo-infinite-container">
-            <InfiniteScroll
-              initialLoad={false}
-              pageStart={0}
-              loadMore={this.handleInfiniteOnLoad}
-              hasMore={!this.state.loading && this.state.hasMore}
-              useWindow={false}
-            >
-              <List
-                dataSource={this.state.data}
-                renderItem={item => (
-                  <List.Item style={item.style} className="row-item">
-                    <div className="idViwe">{item.SectorNumber}</div>
-                    <div className="delayView">{item.Interval}</div>
-                  </List.Item>
-                )}
+      if (this.state.total == 0) {
+        return null;
+      } else {
+        return (
+          <div>
+            <div className="col-header">
+              <div className="statView">{this.props.stat}</div>
+              <div className="totalView">{this.state.total}</div>
+            </div>
+  
+            <div className="demo-infinite-container">
+              <InfiniteScroll
+                initialLoad={false}
+                pageStart={0}
+                loadMore={this.handleInfiniteOnLoad}
+                hasMore={!this.state.loading && this.state.hasMore}
+                useWindow={false}
               >
-                {this.state.loading && this.state.hasMore && (
-                  <div className="demo-loading-container">
-                    <Spin />
-                  </div>
-                )}
-              </List>
-            </InfiniteScroll>
+                <List
+                  dataSource={this.state.data}
+                  renderItem={item => (
+                    <List.Item style={item.style} className="row-item">
+                      <div className="idViwe">{item.SectorNumber}</div>
+                      <div className="delayView">{item.Interval}</div>
+                    </List.Item>
+                  )}
+                >
+                  {this.state.loading && this.state.hasMore && (
+                    <div className="demo-loading-container">
+                      <Spin />
+                    </div>
+                  )}
+                </List>
+              </InfiniteScroll>
+          </div>
         </div>
-      </div>
-      );
+        );
+      }
     }
   }
 
