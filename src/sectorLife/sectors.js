@@ -54,10 +54,18 @@ const states = [
   "OfflineDealsReadyFailed",
 
   "UndefinedSectorState",
+
+	"UPStart",
+	"UPUploadSealedSector",
+	"UPWaitUploadSealedSector",
+	"UPUploadCacheSector",
+	"UPUploadFinished",
+	"UPCompleted",
+	"UPError",
+	"UPTaskSectorNotOnChan",
 ];
 
 function FormSectorView() {
-  //load states item info
   let cols = states.map((item, index) => {
     return (
       <Col key={index}>
